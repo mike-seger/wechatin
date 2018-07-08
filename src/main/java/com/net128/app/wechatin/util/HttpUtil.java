@@ -1,6 +1,5 @@
 package com.net128.app.wechatin.util;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -67,7 +66,7 @@ public class HttpUtil {
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
             conn.setRequestProperty("Content-Type", "image/jpeg");
-            conn.setRequestProperty("Accept", "aimage/jpeg");
+            conn.setRequestProperty("Accept", "image/jpeg");
             conn.setRequestMethod("GET");
             conn.connect();
             try (InputStream in = conn.getInputStream()) {
@@ -79,5 +78,4 @@ public class HttpUtil {
             logger.error("Failed to get image: {}", url, e);
         }
     }
-
 }
