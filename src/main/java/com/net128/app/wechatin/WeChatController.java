@@ -45,6 +45,7 @@ public class WeChatController {
     @PostMapping(value=wechat, produces=MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
     public Object handleMessage(@RequestBody InMessage inMessage) {
+        logger.info("{} -> {}", inMessage.FromUserName, inMessage.Content);
         OutMessage outMessage = new OutMessage();
         outMessage.FromUserName=inMessage.ToUserName;
         outMessage.ToUserName=inMessage.FromUserName;
