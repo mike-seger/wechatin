@@ -12,7 +12,9 @@ public class OutMessage {
     @JacksonXmlCData
     public String FromUserName;
     public Long CreateTime;
+    @JacksonXmlCData
     public String MsgType;
     @JacksonXmlCData
     public String Content;
+    public int FuncFlag;
 }

@@ -51,7 +51,7 @@ public class WeChatController {
         outMessage.CreateTime=new Date().getTime();
         String msgType = inMessage.MsgType;
         String content = inMessage.Content;
-        String outContent = "You said: "+content;
+        String outContent = new StringBuilder(content).reverse().toString();
         outMessage.Content=outContent;
         outMessage.MsgType="text";
         return outMessage;
