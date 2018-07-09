@@ -6,7 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JacksonXmlRootElement(localName="xml")
-public class OutMessage {
+public class OutMessage implements WeChatType {
     @JacksonXmlCData
     public String ToUserName;
     @JacksonXmlCData

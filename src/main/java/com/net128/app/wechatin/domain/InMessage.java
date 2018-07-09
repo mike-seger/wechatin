@@ -1,12 +1,9 @@
 package com.net128.app.wechatin.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class InMessage {
+public class InMessage implements WeChatType {
     public String ToUserName;
     public String FromUserName;
-    public Long CreateTime;
+    public long CreateTime;
     public String MsgType;
     public Long MsgId;
 
