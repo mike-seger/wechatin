@@ -19,7 +19,7 @@ import java.util.Date;
 public class WeChatController {
     private final static Logger logger = LoggerFactory.getLogger(WeChatController.class);
 
-    public final static String wechat="util";
+    public final static String wechat="wechat";
 
     @Autowired
     private WeChatProperties wcp;

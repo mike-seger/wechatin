@@ -4,6 +4,8 @@ import com.net128.app.wechatin.config.WeChatProperties;
 import com.net128.app.wechatin.domain.InMessage;
 import com.net128.app.wechatin.domain.OutMessage;
 import com.net128.app.wechatin.util.HashUtil;
+import com.net128.app.wechatin.util.MessageUtil;
+import com.net128.app.wechatin.util.XmlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/util")
@@ -24,10 +27,16 @@ public class UtilController {
     @Autowired
     private WeChatProperties wcp;
 
-    @PostMapping(value= encrypt, produces=MediaType.APPLICATION_XML_VALUE)
+    private Random random=new Random();
+
+    @PostMapping(value= encrypt, produces=MediaType.TEXT_XML_VALUE)
     @ResponseBody
-    public Object encrypt(@RequestBody InMessage inMessage) {
+    public String encrypt(@RequestBody InMessage inMessage,
+                          @RequestParam("token") String token,
+                          @RequestParam("appId") String appId,
+                          @RequestParam("aesKey") String aesKey) {
+        MessageUtil messageUtil = new MessageUtil(token, aesKey, appId);
         logger.info("{} -> {}", inMessage.FromUserName, inMessage.Content);
-        return inMessage;
+        return messageUtil.encryptMessage(XmlUtil.toXml(inMessage), System.currentTimeMillis()+"", random.nextInt()+"");
     }
 }
