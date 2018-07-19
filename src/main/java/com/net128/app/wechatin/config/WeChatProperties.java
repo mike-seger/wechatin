@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySources;
 @PropertySources({
         @PropertySource(value = "file:${user.home}/wechatin.properties", ignoreResourceNotFound = true)
 })
-@ConfigurationProperties(prefix = "wechat")
+@ConfigurationProperties(prefix = "util")
 public class WeChatProperties {
     private String token;
     private String appId;

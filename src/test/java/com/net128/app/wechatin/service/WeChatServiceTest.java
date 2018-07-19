@@ -13,7 +13,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
-@ConditionalOnProperty(name = "wechat.appsecret")
+@ConditionalOnProperty(name = "util.appsecret")
 @SpringBootTest
 public class WeChatServiceTest {
     @Autowired
