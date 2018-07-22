@@ -1,9 +1,11 @@
-package com.net128.app.wechatin.domain;
+package com.net128.app.wechatin.domain.message;
 
-public class InMessage implements WeChatType {
+import com.net128.app.wechatin.domain.XmlObject;
+
+public class Message extends InternalMessage {
     public String ToUserName;
     public String FromUserName;
-    public long CreateTime;
+    public Long CreateTime;
     public String MsgType;
     public Long MsgId;
 

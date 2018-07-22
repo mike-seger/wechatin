@@ -1,4 +1,6 @@
-package com.net128.app.wechatin.domain;
+package com.net128.app.wechatin.domain.token;
+
+import com.net128.app.wechatin.domain.WeChatType;
 
 public class WebAccessToken implements WeChatType {
     public String access_token;

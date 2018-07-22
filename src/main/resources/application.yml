@@ -1,0 +1,20 @@
+logging:
+    level:
+        com:
+            net128:
+                app:
+                    wechatin.util.PropertiesDumper: debug
+                    wechatin.service: debug
+                    wechatin.controller: debug
+spring.jackson.serialization:
+    indent_output: true
+#    write_dates_as_timestamps: false
+server.port: 15001
+management:
+    address: '127.0.0.1'
+    endpoints:
+        enabled: true
+        enabled-by-default: true
+        sensitive: false
+        web.exposure.include: '*'
+wechatin.logsession.pattern: 'LOGSESSION-([0-9]*)'

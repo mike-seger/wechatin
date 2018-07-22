@@ -3,6 +3,9 @@ package com.net128.app.wechatin.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.net128.app.wechatin.config.WeChatProperties;
 import com.net128.app.wechatin.domain.*;
+import com.net128.app.wechatin.domain.message.CustomMessage;
+import com.net128.app.wechatin.domain.token.AccessToken;
+import com.net128.app.wechatin.domain.token.WebAccessToken;
 import com.net128.app.wechatin.util.HashUtil;
 import com.net128.app.wechatin.util.HttpUtil;
 import org.slf4j.Logger;
@@ -30,8 +33,11 @@ public class WeChatService {
     private static final String GET_USERS_URL = WC_API + "user/get?access_token=ACCESS_TOKEN"; // TODO id n>10000 &next_openid=NEXT_OPENID
     private static final String GET_USERINFO_URL = WC_API + "user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=en";
     private static final String GET_WEB_USERINFO_URL = WECHAT_API + "sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=en";
-    private static final String SEND_TEMPLATE_URL = WC_API + "message/template/send?access_token=ACCESS_TOKEN";
+    private static final String SEND_TEMPLATE_URL = WC_API + "message/template/sendMessage?access_token=ACCESS_TOKEN";
+    private static final String SEND_CUSTOM_URL = WC_API + "message/custom/sendMessage?access_token=ACCESS_TOKEN";
     private static AccessToken accessToken;
+
+    private Map<String, UserInfo> userInfoMap=new HashMap<>();
 
     public WebAccessToken getWebAccessToken(String code){
         String url=GET_WEB_ACCESSTOKEN_URL.replace("wcp.appId", wcp.getAppId()).replace("SECRET", wcp.getAppSecret()).replace("CODE", code);
@@ -58,6 +64,12 @@ public class WeChatService {
         logger.debug(result);
     }
 
+    public void sendMessage(CustomMessage message) {
+        String url=url(SEND_CUSTOM_URL);
+        String result = HttpUtil.post(url, message.toJson());
+        logger.info("API POST: [{}]{} -> {}", message.toJson(), url, result);
+    }
+
     public void sendTemplate(String data){
         String result = HttpUtil.post(url(SEND_TEMPLATE_URL),data);
         logger.debug(result);
@@ -71,6 +83,20 @@ public class WeChatService {
         return apiAt(url(GET_USERINFO_URL).replace("OPENID",openId), UserInfo.class);
     }
 
+    public List<UserInfo> getFollowingUsers() {
+        FollowerList followerList=getFollowerList();
+        List<UserInfo> userInfos=new ArrayList<>();
+        for(String openId : followerList.data.openid) {
+            UserInfo userInfo=userInfoMap.get(openId);
+            if(userInfo==null) {
+                userInfo=getUserInfo(openId);
+                userInfoMap.put(openId, userInfo);
+            }
+            userInfos.add(userInfo);
+        }
+        return userInfos;
+    }
+
     public UserInfo getWebUserInfo(String openId){
         return apiAt(url(GET_WEB_USERINFO_URL).replace("OPENID",openId), UserInfo.class);
     }
@@ -79,7 +105,7 @@ public class WeChatService {
         return apiAt(GET_TICKET_URL, JsTicket.class).ticket;
     }
 
-    public String getSignature(String jsapi_ticket,Long timestamp,String noncestr,String url ){
+    public String getSignature(String jsapi_ticket, Long timestamp, String noncestr, String url ){
         Map<String,Object> map = new TreeMap<>();
         map.put("jsapi_ticket",jsapi_ticket);
         map.put("timestamp",timestamp);
@@ -109,11 +135,28 @@ public class WeChatService {
 
     private <T> T api(String url, Class<T> clazz) {
         String result = HttpUtil.get(url);
+        logger.debug("API GET:  {} -> {}", url, result);
         try {
             return om.readValue(result, clazz);
         } catch (IOException e) {
             throw new RuntimeException("Unable to read object from: "+url, e);
         }
+    }
+
+    public boolean validateSignature(String signature, String timestamp, String nonce) {
+        String[] arr = {wcp.getToken(), timestamp, nonce};
+        Arrays.sort(arr);
+        StringBuilder sb = new StringBuilder();
+        for (String temp : arr) {
+            sb.append(temp);
+        }
+        String mySignature = HashUtil.SHA1(sb.toString());
+        if(mySignature.equals(signature)){
+            logger.debug("Signature correct");
+            return true;
+        }
+        logger.error("Signature incorrect");
+        return false;
     }
 
     private final ObjectMapper om=new ObjectMapper();

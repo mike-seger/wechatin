@@ -1,6 +1,11 @@
 # WeChat In
 
-A basic WeChat message inbound endpoint using SpringBoot 2.
+A WeChat development helper application based on SpringBoot 2.
+- message inbound endpoint (check for URL and token)
+- mock server with recording
+- encryption checks
+
+[Swagger Documentation](http://localhost:15001/swagger-ui.html)
 
 Send a message to the message webhook:
 ```
@@ -27,3 +32,9 @@ curl -s -X POST "http://localhost:15001/util/encrypt?token=1234&appId=wxf1569d81
     | xmlstarlet fo
 ```
 
+Send a text message to mock server
+```
+curl -v "http://localhost:15001/cgi-bin/message/custom/send?access_token=dfgdfgsdgfs%20gsfdgsdfg%20sdfg" \
+    -H "Content-Type: application/json" \
+    -d '{"touser":"string","msgtype":"text","text":{"content":"LOGSESSION-54654564"}}'
+```

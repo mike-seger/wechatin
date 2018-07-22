@@ -1,4 +1,4 @@
-package com.net128.app.wechatin;
+package com.net128.app.wechatin.util;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;

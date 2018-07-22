@@ -1,7 +1,7 @@
 package com.net128.app.wechatin.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySources;
 @PropertySources({
         @PropertySource(value = "file:${user.home}/wechatin.properties", ignoreResourceNotFound = true)
 })
-@ConfigurationProperties(prefix = "util")
+@ConfigurationProperties(prefix = "wechat")
 public class WeChatProperties {
     private String token;
     private String appId;
@@ -38,5 +38,14 @@ public class WeChatProperties {
 
     public void setAppSecret(String appSecret) {
         this.appSecret = appSecret;
+    }
+
+    @Override
+    public String toString() {
+        return "WeChatProperties{" +
+                "token='" + token + '\'' +
+                ", appId='" + appId + '\'' +
+                ", appSecret='" + appSecret + '\'' +
+                '}';
     }
 }
