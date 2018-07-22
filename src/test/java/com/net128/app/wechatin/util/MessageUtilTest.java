@@ -3,8 +3,6 @@ package com.net128.app.wechatin.util;
 import com.net128.app.wechatin.domain.message.Message;
 import org.junit.Test;
 
-import java.util.Random;
-
 import static org.junit.Assert.assertEquals;
 
 public class MessageUtilTest {
