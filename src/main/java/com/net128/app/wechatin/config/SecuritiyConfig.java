@@ -22,3 +22,18 @@ package com.net128.app.wechatin.config;
 //                .httpBasic();
 //    }
 //}
+
+import com.net128.app.wechatin.util.HttpUtil;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+
+import javax.annotation.PostConstruct;
+
+@Configuration
+@Order(1)
+public class SecuritiyConfig {
+    @PostConstruct
+    public void init() {
+        HttpUtil.trustAllHttps();
+    }
+}
