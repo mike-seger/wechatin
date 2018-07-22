@@ -4,9 +4,12 @@ import com.net128.app.wechatin.domain.JsonObject;
 import com.net128.app.wechatin.domain.UserInfo;
 import com.net128.app.wechatin.domain.message.CustomMessage;
 import com.net128.app.wechatin.domain.token.AccessToken;
+import com.net128.app.wechatin.repository.SessionLogRepository;
+import com.net128.app.wechatin.util.HashUtil;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
@@ -30,14 +33,11 @@ public class WeChatMockController {
     private final static Logger logger = LoggerFactory.getLogger(WeChatMockController.class);
     private final static String testAccessTokenPrefix="TEST_ACCESS_TOKEN-";
     private final static String apiRoot="cgi-bin/";
-    private final static String logExt=".log";
-
-    @Value("${wechatin.logsession.pattern}")
-    private String logSessionPattern;
 
     private final Random random=new Random(1234);
-    private final Map<String, File> logSessionMap=new LinkedHashMap<>();
-    private File currentLogFile;
+
+    @Autowired
+    private SessionLogRepository sessionLogRepository;
 
     @GetMapping(apiRoot+"token")
     public AccessToken getAccessToken(
@@ -75,61 +75,22 @@ public class WeChatMockController {
         message.sent = LocalDateTime.now();
         message.headers = headers.entrySet();
         message.remoteAddress = request.getRemoteAddr();
-        log(message);
+        message.tokenMD5 = HashUtil.MD5(access_token);
+        try {
+            sessionLogRepository.log(message);
+        } catch (InterruptedException e) {
+            logger.error("Failed to log: {}", message.toJson(), e);
+        }
     }
 
     @GetMapping("logs")
     public Map<String, File> logs(@RequestParam(required = false) String id) throws IOException {
-        return logSessionMap;
+        return sessionLogRepository.getLogSessionMap();
     }
 
     @GetMapping("logdata")
     public FileSystemResource logData(@RequestParam(required = false) String id) throws IOException {
-        return new FileSystemResource(getCurrentLogFile(id));
-    }
-
-    private synchronized void log(CustomMessage message) throws IOException {
-        File file=getLogSessionFile(message);
-        Files.write(Paths.get(file.getAbsolutePath()),
-            (message.toJson()+"\n").getBytes(StandardCharsets.UTF_8.name()), StandardOpenOption.APPEND);
-    }
-
-    private File getLogSessionFile(CustomMessage message) throws IOException {
-        if(message!=null && message.text!=null && message.text.content!=null) {
-            String content = message.text.content;
-            if (content.matches(logSessionPattern)) {
-                String id = content.replaceAll(logSessionPattern, "$1");
-                logger.debug("id {}", id);
-                getCurrentLogFile(id);
-            }
-        }
-        return currentLogFile;
-    }
-
-    private File getCurrentLogFile(String id) throws IOException {
-        File file;
-        if(id!=null) {
-            file = logSessionMap.get(id);
-            if (file == null) {
-                file = createLogFile(id);
-                logSessionMap.put(id, file);
-            }
-            currentLogFile = file;
-        } else {
-            file=currentLogFile;
-        }
-        return file;
-    }
-
-    private File createLogFile(String id) throws IOException {
-        File file=File.createTempFile("logsession-"+id+"-", logExt);
-        file.deleteOnExit();
-        return file;
-    }
-
-    @PostConstruct
-    public void initLogFile() throws IOException {
-        currentLogFile=createLogFile("00000");
+        return new FileSystemResource(sessionLogRepository.getCurrentLogFile(id));
     }
 
     private String getAccessToken() {

@@ -16,5 +16,7 @@ public class InternalMessage implements WeChatType {
     @ApiModelProperty(hidden = true)
     public String remoteAddress;
     @ApiModelProperty(hidden = true)
+    public String tokenMD5;
+    @ApiModelProperty(hidden = true)
     public Set<Map.Entry<String, List<String>>> headers;
 }

@@ -1,20 +1,26 @@
 logging:
-    level:
-        com:
-            net128:
-                app:
-                    wechatin.util.PropertiesDumper: debug
-                    wechatin.service: debug
-                    wechatin.controller: debug
+  level:
+    org.apache.catalina.core: warn
+    org.springframework.boot.actuate.endpoint.web.servlet: warn
+    org.springframework.boot.web.servlet: warn
+    org.springframework.context.support: warn
+    org.springframework.jmx.export.annotation: warn
+    org.springframework.web: warn
+    springfox.documentation: warn
+    com.net128.app.wechatin:
+      util.PropertiesDumper: debug
+      service: debug
+      controller: debug
+      controller.WeChatMockController: info
 spring.jackson.serialization:
-    indent_output: true
-#    write_dates_as_timestamps: false
+  indent_output: true
+#  write_dates_as_timestamps: false
 server.port: 15001
 management:
-    address: '127.0.0.1'
-    endpoints:
-        enabled: true
-        enabled-by-default: true
-        sensitive: false
-        web.exposure.include: '*'
+  address: '127.0.0.1'
+  endpoints:
+    enabled: true
+    enabled-by-default: true
+    sensitive: false
+    web.exposure.include: '*'
 wechatin.logsession.pattern: 'LOGSESSION-([0-9]*)'
