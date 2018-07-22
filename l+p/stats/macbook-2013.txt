@@ -1,5 +1,7 @@
+MacOS High Sierra
 MacBook Pro (Retina, 13-inch, Late 2013)
 Processor 2.6 GHz Intel Core i5
+16GB Memory
 
 Simulation wechatin.BasicSimulation started...
 ================================================================================
