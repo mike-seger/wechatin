@@ -17,17 +17,16 @@ public class MessageUtilTest {
         "<FromUserName>ozKDGv3BQsXV2WDNDynsLnueAu</FromUserName>" +
         "<CreateTime>1502784210</CreateTime>" +
         "<MsgType>text</MsgType>" +
-        "<Content>Hello World!</Content>" +
         "<MsgId>6454409035319957426</MsgId>" +
+        "<Content>Hello World!</Content>" +
         "</xml>";
 
     private final static String randomString = "gN2CpuwYRA3Wk7vH";
 
     private final static String encMessage =
-        "DG6DTgn54EnzHiXpu5C+SeZTaESi/GyIKod4LB2lX1oMgvQNL3UU3dnlDEJYP8Qrv9IgVTwU4V6KlAyGvmQZ8XFe2iMv12aaNB0blWeCyOzKoKHe0XTrL3yxmrWSM8nMOP5snAVKAcR8R8lnvLdf1enUgTD0UJQs4LhvdXauJJVIGRMJq+ADT3jJh+pSpkkoRO4/dGnHngtM+lzO5Wk5Z0zIheCmZ9gE8Ds49YU/WgFGL8nhxR0C07PcR2Jfwyywlwh+F2Qs+Wx+TYktYH6mIBlJktjcWvbtK0GOAwQdisRaBAks5HYEJJuPYxYEdJRzFlE5C1KHIVBR6gTDT7DRnIvGFcOOl3ELbRYqvi5YzKRWZdC660/Jt+WWYLWO+7nm";
-
+        "DG6DTgn54EnzHiXpu5C+SeZTaESi/GyIKod4LB2lX1oMgvQNL3UU3dnlDEJYP8Qrv9IgVTwU4V6KlAyGvmQZ8XFe2iMv12aaNB0blWeCyOzKoKHe0XTrL3yxmrWSM8nMOP5snAVKAcR8R8lnvLdf1enUgTD0UJQs4LhvdXauJJVIGRMJq+ADT3jJh+pSpkkoRO4/dGnHngtM+lzO5Wk5Z0zIheCmZ9gE8Ds49YU/WgEdRZ3pqJmlAZg7gXEeoPBmKTonj7fnFsAVnj4Ga6xr82IyNjxB9aTKmulqLzZaBMZhA2s03w3VRv3fgQcvY9LILIzWgrGajzNtgN1+f9R7+dcvFgzo9GIwjny8d47nDXCIYuAynp+92k13MDBGkE1O";
     private final static String encMessageXml =
-        "<xml><Encrypt>DG6DTgn54EnzHiXpu5C+SeZTaESi/GyIKod4LB2lX1oMgvQNL3UU3dnlDEJYP8Qrv9IgVTwU4V6KlAyGvmQZ8XFe2iMv12aaNB0blWeCyOzKoKHe0XTrL3yxmrWSM8nMOP5snAVKAcR8R8lnvLdf1enUgTD0UJQs4LhvdXauJJVIGRMJq+ADT3jJh+pSpkkoRO4/dGnHngtM+lzO5Wk5Z0zIheCmZ9gE8Ds49YU/WgFGL8nhxR0C07PcR2Jfwyywlwh+F2Qs+Wx+TYktYH6mIBlJktjcWvbtK0GOAwQdisRaBAks5HYEJJuPYxYEdJRzFlE5C1KHIVBR6gTDT7DRnIvGFcOOl3ELbRYqvi5YzKRWZdC660/Jt+WWYLWO+7nm</Encrypt><MsgSignature>06dc45fa80921c0c9084c5351b3ef0d7d597eb5e</MsgSignature><TimeStamp>1532225110968</TimeStamp><Nonce>1249198550</Nonce></xml>";
+        "<xml><Encrypt>DG6DTgn54EnzHiXpu5C+SeZTaESi/GyIKod4LB2lX1oMgvQNL3UU3dnlDEJYP8Qrv9IgVTwU4V6KlAyGvmQZ8XFe2iMv12aaNB0blWeCyOzKoKHe0XTrL3yxmrWSM8nMOP5snAVKAcR8R8lnvLdf1enUgTD0UJQs4LhvdXauJJVIGRMJq+ADT3jJh+pSpkkoRO4/dGnHngtM+lzO5Wk5Z0zIheCmZ9gE8Ds49YU/WgEdRZ3pqJmlAZg7gXEeoPBmKTonj7fnFsAVnj4Ga6xr82IyNjxB9aTKmulqLzZaBMZhA2s03w3VRv3fgQcvY9LILIzWgrGajzNtgN1+f9R7+dcvFgzo9GIwjny8d47nDXCIYuAynp+92k13MDBGkE1O</Encrypt><MsgSignature>c5eaef6285093f2b794b71b424cb340bd3d9102b</MsgSignature><TimeStamp>1532225110968</TimeStamp><Nonce>1249198550</Nonce></xml>";
 
     private MessageUtil messageUtil = new MessageUtil(token,  encodingAESKey, appId);
 
