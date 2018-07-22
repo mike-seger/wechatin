@@ -1,6 +1,7 @@
 package com.net128.app.wechatin.util;
 
 import com.net128.app.wechatin.domain.message.EncMessage;
+import com.net128.app.wechatin.domain.message.Message;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -129,12 +130,12 @@ public class MessageUtil {
 		return xmlContent;
 	}
 
-	public String encryptMessage(String message, String timeStamp, String nonce) {
+	public EncMessage encryptMessage(Message message, String timeStamp, String nonce) {
 		return encryptMessage(getRandomStr(), message, timeStamp, nonce);
 	}
 
-	public String encryptMessage(String randomStr, String message, String timeStamp, String nonce) {
-		String encrypt = encrypt(randomStr, message);
+	public EncMessage encryptMessage(String randomStr, Message message, String timeStamp, String nonce) {
+		String encrypt = encrypt(randomStr, message.toXml());
 
 		if (timeStamp == "") {
 			timeStamp = Long.toString(System.currentTimeMillis());
@@ -146,7 +147,7 @@ public class MessageUtil {
 		encMessage.MsgSignature=signature;
 		encMessage.Nonce=nonce;
 		encMessage.TimeStamp=timeStamp;
-		return encMessage.toXml();
+		return encMessage;
 	}
 
 	public String decryptMessageXml(String messageXml) {

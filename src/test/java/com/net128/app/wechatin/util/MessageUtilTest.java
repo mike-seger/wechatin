@@ -1,5 +1,6 @@
 package com.net128.app.wechatin.util;
 
+import com.net128.app.wechatin.domain.message.Message;
 import org.junit.Test;
 
 import java.util.Random;
@@ -46,7 +47,7 @@ public class MessageUtilTest {
 
     @Test
     public void testEncryptMessage() {
-        String theEncMessageXml = messageUtil.encryptMessage(randomString, message, timeStamp, nonce);
+        String theEncMessageXml = messageUtil.encryptMessage(randomString, new Message().fromXml(message), timeStamp, nonce).toXml();
         assertEquals(encMessageXml, theEncMessageXml);
     }
 

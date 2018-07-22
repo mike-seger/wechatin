@@ -26,18 +26,18 @@ public class UtilController {
 
     private Random random=new Random();
 
-    @PostMapping(value= encrypt, produces=MediaType.TEXT_XML_VALUE)
+    @PostMapping(value= encrypt, consumes=MediaType.TEXT_XML_VALUE, produces=MediaType.TEXT_XML_VALUE)
     @ResponseBody
-    public String encrypt(@RequestBody Message message,
+    public EncMessage encrypt(@RequestBody Message message,
             @RequestParam("token") String token,
             @RequestParam("appId") String appId,
             @RequestParam("aesKey") String aesKey) {
         MessageUtil messageUtil = new MessageUtil(token, aesKey, appId);
         logger.info("{} -> {}", message.FromUserName, message.Content);
-        return messageUtil.encryptMessage(message.toXml(), System.currentTimeMillis()+"", random.nextInt()+"");
+        return messageUtil.encryptMessage(message, System.currentTimeMillis()+"", random.nextInt()+"");
     }
 
-    @PostMapping(value= decrypt, produces=MediaType.TEXT_XML_VALUE)
+    @PostMapping(value= decrypt, consumes=MediaType.TEXT_XML_VALUE, produces=MediaType.TEXT_XML_VALUE)
     @ResponseBody
     public String decrypt(
         @RequestBody EncMessage message,
