@@ -1,0 +1,280 @@
+{
+  "front-version": "2.18.0",
+  "version": 3,
+  "nodes": [
+    {
+      "type": "Project",
+      "id": "350a8f4e-c329-42cb-b03c-37cda9712495",
+      "lastModified": "2018-07-22T13:39:56.591+02:00",
+      "name": "wechatin"
+    },
+    {
+      "type": "Scenario",
+      "description": "The WeChat In project",
+      "id": "3f0b63ad-6564-4ce4-b378-dceb867be886",
+      "lastModified": "2018-07-22T13:34:06.934+02:00",
+      "name": "Basic Requests",
+      "requestOrder": [
+        "Encrypt a message",
+        "Decrypt a message",
+        "Send a message to the webhook",
+        "Send a text message to the mock server"
+      ],
+      "parentId": "350a8f4e-c329-42cb-b03c-37cda9712495"
+    },
+    {
+      "uriEditor": true,
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "<xml>\n\t<ToUserName>toUser</ToUserName>\n\t<FromUserName>oWyt_1v_Knw6D0hQwGen1fgd4634</FromUserName>\n\t<CreateTime>1348831860</CreateTime>\n\t<MsgType>text</MsgType>\n\t<Content>I like WeChat!!!</Content>\n\t<MsgId>1234567890123456</MsgId>\n</xml>"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": [
+            {
+              "enabled": true,
+              "name": "aesKey",
+              "value": "WO3Gcs2X5lcNtZagAcaRRjNaAwEmoekP1P2aOKR4W3D"
+            },
+            {
+              "enabled": true,
+              "name": "appId",
+              "value": "wxf1569d816b304d28"
+            },
+            {
+              "enabled": true,
+              "name": "token",
+              "value": "weixin"
+            }
+          ]
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:15001",
+        "path": "/util/encrypt"
+      },
+      "id": "75737e66-1cbd-4726-93a8-f5bd14a00268",
+      "lastModified": "2018-07-22T13:39:56.591+02:00",
+      "name": "Encrypt a message",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "text/xml"
+        }
+      ],
+      "assertions": [
+        {
+          "comparison": "Equals",
+          "subject": "ResponseStatus",
+          "path": "code",
+          "value": "200"
+        }
+      ],
+      "metaInfo": {
+        "ownerId": "github|5744894"
+      },
+      "parentId": "3f0b63ad-6564-4ce4-b378-dceb867be886"
+    },
+    {
+      "uriEditor": true,
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "<xml>\n  <Encrypt>iySSIDAfGJW4psdPc8EcnAbn08OTp25zlfp+21vUUes/4QD3VgSiat2iQTKvrphs4gmOv3NHHyfVDpVPXYWd6r7ToDPbg3R8mbGZ8PpBDFUH/0A7CMEY8q3BWUQ2i0mZ73UfBuJNoqImbMcVAfkP5cZxFpts1H7s3AtX5rh/7/nujktQhCoR/XhSfN6QpnAYbahP0oyEDl/WOATy6/Z/NNb+qDJ8svA4w+BbgVQ4nCynnaZfdNQDO77VWIOP3uW/6n/rB9In5JMgbdRLhEMufxGd7twagObz0VUuEkoKy4AJyQcnqLxexgWeXDSw8NRPx/wgIsxVzfXj0XiTHqx0J5tzzsxViV89minMuOBsJr+INQ3nFYRpFZ1uVcbjRgLs</Encrypt>\n  <MsgSignature>7edf94e3c0bb4aa25555b2eaca03460ba6fba115</MsgSignature>\n  <TimeStamp>1532258627344</TimeStamp>\n  <Nonce>-1319592089</Nonce>\n</xml>"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": [
+            {
+              "enabled": true,
+              "name": "aesKey",
+              "value": "WO3Gcs2X5lcNtZagAcaRRjNaAwEmoekP1P2aOKR4W3D"
+            },
+            {
+              "enabled": true,
+              "name": "appId",
+              "value": "wxf1569d816b304d28"
+            },
+            {
+              "enabled": true,
+              "name": "token",
+              "value": "weixin"
+            }
+          ]
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:15001",
+        "path": "/util/decrypt"
+      },
+      "id": "50a3c3f7-ce5c-4027-93ea-b2e1ae9fd6ac",
+      "lastModified": "2018-07-22T13:39:46.011+02:00",
+      "name": "Decrypt a message",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "text/xml"
+        }
+      ],
+      "assertions": [
+        {
+          "comparison": "Equals",
+          "subject": "ResponseStatus",
+          "path": "code",
+          "value": "200"
+        }
+      ],
+      "metaInfo": {
+        "ownerId": "github|5744894"
+      },
+      "parentId": "3f0b63ad-6564-4ce4-b378-dceb867be886"
+    },
+    {
+      "uriEditor": true,
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "<xml>\n\t<ToUserName>toUser</ToUserName>\n\t<FromUserName>oJ_mT0idqDSmsWctBfhJ4gLSUX1w</FromUserName>\n\t<CreateTime>1348831860</CreateTime>\n\t<MsgType>text</MsgType>\n\t<Content>I like WeChat!!!</Content>\n\t<MsgId>1234567890123456</MsgId>\n</xml>"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:15001",
+        "path": "/wechat"
+      },
+      "id": "19af1f4c-6b18-47f7-a673-f4fad3edf42d",
+      "lastModified": "2018-07-22T13:39:37.143+02:00",
+      "name": "Send a message to the webhook",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "text/xml"
+        }
+      ],
+      "assertions": [
+        {
+          "comparison": "Equals",
+          "subject": "ResponseStatus",
+          "path": "code",
+          "value": "200"
+        }
+      ],
+      "metaInfo": {
+        "ownerId": "github|5744894"
+      },
+      "parentId": "3f0b63ad-6564-4ce4-b378-dceb867be886"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"touser\":\"string\",\n  \"msgtype\":\"text\",\n  \"text\":{\n    \"content\":\"LOGSESSION-54654564\"\n  }\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": [
+            {
+              "enabled": true,
+              "encoded": true,
+              "name": "access_token",
+              "value": "dfgdfgsdgfs%20gsfdgsdfg%20sdfg"
+            }
+          ]
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:15001",
+        "path": "/cgi-bin/message/custom/send"
+      },
+      "id": "72d642e5-09d8-426c-9e20-7f2e9a6dc71e",
+      "lastModified": "2018-07-22T13:39:17.897+02:00",
+      "name": "Send a text message to the mock server",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "assertions": [
+        {
+          "comparison": "Equals",
+          "subject": "ResponseStatus",
+          "path": "code",
+          "value": "200"
+        }
+      ],
+      "metaInfo": {
+        "ownerId": "github|5744894"
+      },
+      "parentId": "3f0b63ad-6564-4ce4-b378-dceb867be886"
+    }
+  ]
+}
