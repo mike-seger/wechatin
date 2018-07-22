@@ -33,7 +33,7 @@ public class WeChatService {
     private static final String GET_USERS_URL = WC_API + "user/get?access_token=ACCESS_TOKEN"; // TODO id n>10000 &next_openid=NEXT_OPENID
     private static final String GET_USERINFO_URL = WC_API + "user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=en";
     private static final String GET_WEB_USERINFO_URL = WECHAT_API + "sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=en";
-    private static final String SEND_TEMPLATE_URL = WC_API + "message/template/sendMessage?access_token=ACCESS_TOKEN";
+    private static final String SEND_TEMPLATE_URL = WC_API + "message/template/send?access_token=ACCESS_TOKEN";
     private static final String SEND_CUSTOM_URL = WC_API + "message/custom/send?access_token=ACCESS_TOKEN";
     private static AccessToken accessToken;
 
