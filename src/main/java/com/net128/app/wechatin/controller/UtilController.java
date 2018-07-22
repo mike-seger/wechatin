@@ -1,6 +1,7 @@
 package com.net128.app.wechatin.controller;
 
 import com.net128.app.wechatin.config.WeChatProperties;
+import com.net128.app.wechatin.domain.message.EncMessage;
 import com.net128.app.wechatin.domain.message.Message;
 import com.net128.app.wechatin.util.MessageUtil;
 import org.slf4j.Logger;
@@ -17,7 +18,8 @@ import java.util.Random;
 public class UtilController {
     private final static Logger logger = LoggerFactory.getLogger(UtilController.class);
 
-    public final static String encrypt ="encrypt";
+    private final static String encrypt ="encrypt";
+    private final static String decrypt ="decrypt";
 
     @Autowired
     private WeChatProperties wcp;
@@ -33,5 +35,17 @@ public class UtilController {
         MessageUtil messageUtil = new MessageUtil(token, aesKey, appId);
         logger.info("{} -> {}", message.FromUserName, message.Content);
         return messageUtil.encryptMessage(message.toXml(), System.currentTimeMillis()+"", random.nextInt()+"");
+    }
+
+    @PostMapping(value= decrypt, produces=MediaType.TEXT_XML_VALUE)
+    @ResponseBody
+    public String decrypt(
+        @RequestBody EncMessage message,
+        @RequestParam("token") String token,
+        @RequestParam("appId") String appId,
+        @RequestParam("aesKey") String aesKey
+    ) {
+        MessageUtil messageUtil = new MessageUtil(token, aesKey, appId);
+        return messageUtil.decryptMessage(message);
     }
 }

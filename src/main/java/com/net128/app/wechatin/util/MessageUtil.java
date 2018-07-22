@@ -1,11 +1,7 @@
 package com.net128.app.wechatin.util;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
+import com.net128.app.wechatin.domain.message.EncMessage;
 
-import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -18,8 +14,6 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 public class MessageUtil {
 	private static Charset CHARSET = StandardCharsets.UTF_8;
@@ -136,26 +130,35 @@ public class MessageUtil {
 	}
 
 	public String encryptMessage(String message, String timeStamp, String nonce) {
-		String encrypt = encrypt(getRandomStr(), message);
+		return encryptMessage(getRandomStr(), message, timeStamp, nonce);
+	}
+
+	public String encryptMessage(String randomStr, String message, String timeStamp, String nonce) {
+		String encrypt = encrypt(randomStr, message);
 
 		if (timeStamp == "") {
 			timeStamp = Long.toString(System.currentTimeMillis());
 		}
 
 		String signature = getSHA1(token, timeStamp, nonce, encrypt);
-		String result = new XMLUtil().generate(encrypt, signature, timeStamp, nonce);
-		return result;
+		EncMessage encMessage=new EncMessage();
+		encMessage.Encrypt=encrypt;
+		encMessage.MsgSignature=signature;
+		encMessage.Nonce=nonce;
+		encMessage.TimeStamp=timeStamp;
+		return encMessage.toXml();
 	}
 
-	public String decryptMessage(String msgSignature, String timeStamp, String nonce, String encMessage) {
+	public String decryptMessageXml(String messageXml) {
+		return decryptMessage(new EncMessage().fromXml(messageXml));
+	}
 
-		Object[] encrypt = new XMLUtil().extract(encMessage);
-		String signature = getSHA1(token, timeStamp, nonce, encrypt[1].toString());
-		if (!signature.equals(msgSignature)) {
+	public String decryptMessage(EncMessage message) {
+		String result = decrypt(message.Encrypt);
+		String signature = getSHA1(token, message.TimeStamp, message.Nonce, message.Encrypt);
+		if (!signature.equals(message.MsgSignature)) {
 			throw new AesException(AesError.ValidateSignatureError, null);
 		}
-
-		String result = decrypt(encrypt[1].toString());
 		return result;
 	}
 
@@ -245,39 +248,6 @@ public class MessageUtil {
 
 		public int size() {
 			return byteContainer.size();
-		}
-	}
-
-	private class XMLUtil {
-		public Object[] extract(String xmltext)     {
-			Object[] result = new Object[3];
-			try {
-				DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-				DocumentBuilder db = dbf.newDocumentBuilder();
-				StringReader sr = new StringReader(xmltext);
-				InputSource is = new InputSource(sr);
-				Document document = db.parse(is);
-
-				Element root = document.getDocumentElement();
-				NodeList nodelist1 = root.getElementsByTagName("Encrypt");
-
-				NodeList nodelist2 = root.getElementsByTagName("ToUserName");
-				if(nodelist2.getLength() ==0 )
-					nodelist2 = root.getElementsByTagName("AppId");
-				result[0] = 0;
-				result[1] = nodelist1.item(0).getTextContent();
-				result[2] = nodelist2.item(0).getTextContent();
-				return result;
-			} catch (Exception e) {
-				throw new AesException(AesError.ParseXmlError, e);
-			}
-		}
-
-		public String generate(String encrypt, String signature, String timestamp, String nonce) {
-			String format = "<xml>\n" + "<Encrypt><![CDATA[%1$s]]></Encrypt>\n"
-					+ "<MsgSignature><![CDATA[%2$s]]></MsgSignature>\n"
-					+ "<TimeStamp>%3$s</TimeStamp>\n" + "<Nonce><![CDATA[%4$s]]></Nonce>\n" + "</xml>";
-			return String.format(format, encrypt, signature, timestamp, nonce);
 		}
 	}
 
