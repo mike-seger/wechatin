@@ -17,6 +17,7 @@ spring.jackson.serialization:
 #  write_dates_as_timestamps: false
 server.port: 15001
 management:
+  info.git.mode: full
   address: '127.0.0.1'
   endpoints:
     enabled: true
