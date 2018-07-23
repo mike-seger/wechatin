@@ -10,7 +10,7 @@ class BasicSimulation extends Simulation {
   val httpConf = http
     .disableWarmUp
     .baseURLs("http://localhost:15001/cgi-bin") // Here is the root for all relative URLs
-    .silentURI("http://localhost:15001/cgi-bin/token.*")
+   // .silentURI("http://localhost:15001/cgi-bin/token.*")
     .acceptHeader("application/json;q=0.9,*/*;q=0.8")
     .acceptEncodingHeader("gzip, deflate")
     .acceptLanguageHeader("en-US,en;q=0.5")
@@ -27,6 +27,7 @@ class BasicSimulation extends Simulation {
         .check(
           jsonPath("$.access_token").saveAs("currentAccessToken")
         )
+        .silent
       .check(status.is(200))
     )
     .pause(1)
