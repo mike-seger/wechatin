@@ -12,6 +12,10 @@ public class MessageUtilTest {
     private final static String timeStamp="1532225110968";
     private final static String nonce="1249198550";
 
+    static {
+        AESShortKeySupportFixer.fixKeyLength();
+    }
+
     private final static String message=
         "<xml><ToUserName>gh_3db049ae940a</ToUserName>" +
         "<FromUserName>ozKDGv3BQsXV2WDNDynsLnueAu</FromUserName>" +
