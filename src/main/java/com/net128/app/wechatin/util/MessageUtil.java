@@ -281,15 +281,21 @@ public class MessageUtil {
 	}
 
 	public static void main(String [] args) {
-		if(args.length!=4) {
-			System.out.printf("Usage: %s <appid> <aeskey> <token> <message>", MessageUtil.class.getSimpleName());
+		if(args.length<4) {
+			System.out.printf("Usage: %s <appid> <aeskey> <token> <message> [<timestamp> <nonce> <signature>]", MessageUtil.class.getSimpleName());
 			System.exit(1);
 		}
 		String appId=args[0];
 		String aesKey=args[1];
 		String token=args[2];
 		String message=args[3];
+		EncMessage encMessage=new EncMessage().fromXml(message);
+		if(args.length==7) {
+			encMessage.TimeStamp=args[4];
+			encMessage.Nonce=args[5];
+			encMessage.MsgSignature=args[6];
+		}
 		MessageUtil messageUtil=new MessageUtil(token, aesKey, appId);
-		System.out.println(messageUtil.decryptMessageXml(message));
+		System.out.println(messageUtil.decryptMessage(encMessage));
 	}
 }
