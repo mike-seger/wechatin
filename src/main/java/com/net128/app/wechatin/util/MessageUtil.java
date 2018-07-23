@@ -1,5 +1,6 @@
 package com.net128.app.wechatin.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.net128.app.wechatin.domain.message.EncMessage;
 import com.net128.app.wechatin.domain.message.Message;
 
@@ -277,5 +278,18 @@ public class MessageUtil {
 		public String toString() {
 			return name() + ": " + code;
 		}
+	}
+
+	public static void main(String [] args) {
+		if(args.length!=4) {
+			System.out.printf("Usage: %s <appid> <aeskey> <token> <message>", MessageUtil.class.getSimpleName());
+			System.exit(1);
+		}
+		String appId=args[0];
+		String aesKey=args[1];
+		String token=args[2];
+		String message=args[3];
+		MessageUtil messageUtil=new MessageUtil(token, aesKey, appId);
+		System.out.println(;messageUtil.decryptMessageXml(message));
 	}
 }

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import java.io.IOException;
+
 public interface JsonObject {
     ObjectMapper om=objectMapper();
 
@@ -29,4 +31,14 @@ public interface JsonObject {
             throw new RuntimeException("Failed to serialize object to JSON", e);
         }
     }
+
+
+    default <T> T fromJson(String xml) {
+        try {
+            return om.readerForUpdating(this).readValue(xml);
+        } catch (IOException e) {
+            throw new RuntimeException("Error mapping XML to object", e);
+        }
+    }
+
 }
