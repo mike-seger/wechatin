@@ -67,11 +67,12 @@ public class WeChatAccessController {
 
     @PostMapping(value = wechat, produces = MediaType.APPLICATION_XML_VALUE)
     public Object acceptMessage(@RequestBody Message message,
-            @ApiParam(hidden = true) @RequestHeader HttpHeaders headers,
-            @ApiParam(hidden = true) @RequestHeader(required = false) String aesKey,
-            @ApiParam(hidden = true) @RequestHeader(required = false) String token,
-            @ApiParam(hidden = true) @RequestHeader(required = false) String appId,
-            @ApiParam(hidden = true) HttpServletRequest request) {
+        @ApiParam(hidden = true) @RequestHeader(required = false) String aesKey,
+        @ApiParam(hidden = true) @RequestHeader(required = false) String token,
+        @ApiParam(hidden = true) @RequestHeader(required = false) String appId,
+        @ApiParam(hidden = true) @RequestHeader HttpHeaders headers,
+        @ApiParam(hidden = true) HttpServletRequest request
+    ) {
         boolean isEncrypted=false;
         MessageUtil mu=null;
         if(message.Encrypt!=null) {
@@ -84,7 +85,7 @@ public class WeChatAccessController {
         message.headers = headers.entrySet();
         message.remoteAddress = request.getRemoteAddr();
         receivedMessages.add(message);
-        logger.info("{} -> {}", message.FromUserName, message.Content);
+        logger.debug("{} -> {}", message.FromUserName, message.Content);
         Message outMessage = new Message();
         outMessage.FromUserName = message.ToUserName;
         outMessage.ToUserName = message.FromUserName;

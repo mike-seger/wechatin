@@ -9,9 +9,8 @@ logging:
     springfox.documentation: warn
     com.net128.app.wechatin:
       util.PropertiesDumper: debug
-      service: debug
-      controller: debug
-      controller.WeChatMockController: info
+      service: info
+      controller: info
 spring.jackson.serialization:
   indent_output: true
 #  write_dates_as_timestamps: false

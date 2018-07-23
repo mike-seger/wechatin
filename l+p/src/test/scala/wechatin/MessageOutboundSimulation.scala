@@ -7,17 +7,17 @@ import scala.concurrent.duration._
 class MessageOutboundSimulation extends Simulation {
 
   var logSession:String = "LOGSESSION-" + System.currentTimeMillis()
+  val uri = System.getProperty("uri")
   val httpConf = http
     .disableWarmUp
-    .baseURLs("http://localhost:15001/cgi-bin") // Here is the root for all relative URLs
-   // .silentURI("http://localhost:15001/cgi-bin/token.*")
+    .baseURLs(uri)
     .acceptHeader("application/json;q=0.9,*/*;q=0.8")
     .acceptEncodingHeader("gzip, deflate")
     .acceptLanguageHeader("en-US,en;q=0.5")
     .userAgentHeader("Java/1.8.0_131")
     .contentTypeHeader(HttpHeaderValues.ApplicationJson)
 
-  val scn = scenario("Basic Simulation")
+  val scn = scenario("Message Outbound Simulation")
     .feed(tsv("text.csv").circular)
     .exec(http("token")
       .get("/token")
