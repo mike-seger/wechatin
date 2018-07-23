@@ -1,7 +1,5 @@
 package com.net128.app.wechatin.util;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.net128.app.wechatin.domain.message.EncMessage;
 import com.net128.app.wechatin.domain.message.Message;
 
 import java.nio.charset.Charset;
@@ -131,11 +129,17 @@ public class MessageUtil {
 		return xmlContent;
 	}
 
-	public EncMessage encryptMessage(Message message, String timeStamp, String nonce) {
+	public Message encryptMessage(Message message) {
+		String timeStamp=System.currentTimeMillis()+"";
+		String nonce=System.nanoTime()+"";
 		return encryptMessage(getRandomStr(), message, timeStamp, nonce);
 	}
 
-	public EncMessage encryptMessage(String randomStr, Message message, String timeStamp, String nonce) {
+	public Message encryptMessage(Message message, String timeStamp, String nonce) {
+		return encryptMessage(getRandomStr(), message, timeStamp, nonce);
+	}
+
+	public Message encryptMessage(String randomStr, Message message, String timeStamp, String nonce) {
 		String encrypt = encrypt(randomStr, message.toXml());
 
 		if (timeStamp == "") {
@@ -143,7 +147,7 @@ public class MessageUtil {
 		}
 
 		String signature = getSHA1(token, timeStamp, nonce, encrypt);
-		EncMessage encMessage=new EncMessage();
+		Message encMessage=new Message();
 		encMessage.Encrypt=encrypt;
 		encMessage.MsgSignature=signature;
 		encMessage.Nonce=nonce;
@@ -152,10 +156,10 @@ public class MessageUtil {
 	}
 
 	public String decryptMessageXml(String messageXml) {
-		return decryptMessage(new EncMessage().fromXml(messageXml));
+		return decryptMessage(new Message().fromXml(messageXml));
 	}
 
-	public String decryptMessage(EncMessage message) {
+	public String decryptMessage(Message message) {
 		String result = decrypt(message.Encrypt);
 		String signature = getSHA1(token, message.TimeStamp, message.Nonce, message.Encrypt);
 		if (!signature.equals(message.MsgSignature)) {
@@ -289,7 +293,7 @@ public class MessageUtil {
 		String aesKey=args[1];
 		String token=args[2];
 		String message=args[3];
-		EncMessage encMessage=new EncMessage().fromXml(message);
+		Message encMessage=new Message().fromXml(message);
 		if(args.length==7) {
 			encMessage.TimeStamp=args[4];
 			encMessage.Nonce=args[5];

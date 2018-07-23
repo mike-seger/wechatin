@@ -1,10 +1,11 @@
 package com.net128.app.wechatin.controller;
 
 import com.net128.app.wechatin.domain.message.CustomMessage;
-import com.net128.app.wechatin.domain.message.Message;
 import com.net128.app.wechatin.domain.UserInfo;
+import com.net128.app.wechatin.domain.message.Message;
 import com.net128.app.wechatin.service.WeChatService;
 import com.net128.app.wechatin.util.LimitedList;
+import com.net128.app.wechatin.util.MessageUtil;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,7 +68,17 @@ public class WeChatAccessController {
     @PostMapping(value = wechat, produces = MediaType.APPLICATION_XML_VALUE)
     public Object acceptMessage(@RequestBody Message message,
             @ApiParam(hidden = true) @RequestHeader HttpHeaders headers,
+            @ApiParam(hidden = true) @RequestHeader(required = false) String aesKey,
+            @ApiParam(hidden = true) @RequestHeader(required = false) String token,
+            @ApiParam(hidden = true) @RequestHeader(required = false) String appId,
             @ApiParam(hidden = true) HttpServletRequest request) {
+        boolean isEncrypted=false;
+        MessageUtil mu=null;
+        if(message.Encrypt!=null) {
+            isEncrypted=true;
+            mu=new MessageUtil(token, aesKey, appId);
+            message=new Message().fromXml(mu.decryptMessage(message));
+        }
         message.id = messageCount++;
         message.sent = LocalDateTime.now();
         message.headers = headers.entrySet();
@@ -82,6 +93,9 @@ public class WeChatAccessController {
         String outContent = new StringBuilder(content).reverse().toString();
         outMessage.Content = outContent;
         outMessage.MsgType = "text";
+        if(isEncrypted) {
+            outMessage=mu.encryptMessage(outMessage);
+        }
         return outMessage;
     }
 }

@@ -48,8 +48,8 @@ public class MessageUtilTest {
 
     @Test
     public void testEncryptMessage() {
-        String theEncMessageXml = messageUtil.encryptMessage(randomString, new Message().fromXml(message), timeStamp, nonce).toXml();
-        assertEquals(encMessageXml, theEncMessageXml);
+        String theMessageXml = messageUtil.encryptMessage(randomString, new Message().fromXml(message), timeStamp, nonce).toXml();
+        assertEquals(encMessageXml, theMessageXml);
     }
 
     @Test
