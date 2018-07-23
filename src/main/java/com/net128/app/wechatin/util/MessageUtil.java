@@ -290,6 +290,6 @@ public class MessageUtil {
 		String token=args[2];
 		String message=args[3];
 		MessageUtil messageUtil=new MessageUtil(token, aesKey, appId);
-		System.out.println(;messageUtil.decryptMessageXml(message));
+		System.out.println(messageUtil.decryptMessageXml(message));
 	}
 }
