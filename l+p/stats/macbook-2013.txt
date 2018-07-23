@@ -3,7 +3,7 @@ MacBook Pro (Retina, 13-inch, Late 2013)
 Processor 2.6 GHz Intel Core i5
 16GB Memory
 
-Simulation wechatin.BasicSimulation started...
+Simulation wechatin.MessageOutboundSimulation started...
 ================================================================================
 2018-07-22 22:17:19                                           5s elapsed
 ---- Requests ------------------------------------------------------------------
@@ -207,7 +207,7 @@ Simulation wechatin.BasicSimulation started...
           waiting: 0      / active: 0      / done:3000  
 ================================================================================
 
-Simulation wechatin.BasicSimulation completed in 81 seconds
+Simulation wechatin.MessageOutboundSimulation completed in 81 seconds
 Parsing log file(s)...
 Parsing log file(s) done
 Generating reports...

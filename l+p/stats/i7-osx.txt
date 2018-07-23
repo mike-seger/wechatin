@@ -2,7 +2,7 @@ MacOS Sierra
 Processor 3.39 GHz Intel Core i7
 16GB Memory
 
-Simulation wechatin.BasicSimulation started...
+Simulation wechatin.MessageOutboundSimulation started...
 
 ================================================================================
 2018-07-23 00:18:43                                           5s elapsed
@@ -87,7 +87,7 @@ Simulation wechatin.BasicSimulation started...
           waiting: 0      / active: 0      / done:3000
 ================================================================================
 
-Simulation wechatin.BasicSimulation completed in 30 seconds
+Simulation wechatin.MessageOutboundSimulation completed in 30 seconds
 Parsing log file(s)...
 Parsing log file(s) done
 Generating reports...

@@ -2,7 +2,7 @@ Ubuntu 16.04
 Intel(R) Core(TM) i5 CPU         760  @ 2.80GHz
 16GB Memeory
 
-Simulation wechatin.BasicSimulation started...
+Simulation wechatin.MessageOutboundSimulation started...
 
 ================================================================================
 2018-07-23 00:07:03                                           5s elapsed
@@ -111,7 +111,7 @@ Simulation wechatin.BasicSimulation started...
           waiting: 0      / active: 0      / done:3000
 ================================================================================
 
-Simulation wechatin.BasicSimulation completed in 41 seconds
+Simulation wechatin.MessageOutboundSimulation completed in 41 seconds
 Parsing log file(s)...
 Parsing log file(s) done
 Generating reports...

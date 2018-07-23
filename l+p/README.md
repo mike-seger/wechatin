@@ -1,1 +1,1 @@
-mvn gatling:execute -Dgatling.simulationClass=wechatin.BasicSimulation
+mvn gatling:execute -Dgatling.simulationClass=wechatin.MessageOutboundSimulation
