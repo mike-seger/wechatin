@@ -1,4 +1,4 @@
-package wechatin
+package com.net128.test.gatling.wechatin
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
@@ -6,6 +6,7 @@ import scala.concurrent.duration._
 
 class MessageOutboundSimulation extends Simulation {
 
+  val nUsers = Integer.getInteger("users", 100)
   var logSession:String = "LOGSESSION-" + System.currentTimeMillis()
   val uri = System.getProperty("uri")
   val httpConf = http
@@ -18,7 +19,7 @@ class MessageOutboundSimulation extends Simulation {
     .contentTypeHeader(HttpHeaderValues.ApplicationJson)
 
   val scn = scenario("Message Outbound Simulation")
-    .feed(tsv("text.csv").circular)
+  //  .feed(tsv("text.csv").circular)
     .exec(http("token")
       .get("/token")
         .queryParam("appid", "wxf1569d816b304d28")

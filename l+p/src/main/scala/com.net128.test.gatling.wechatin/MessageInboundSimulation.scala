@@ -1,4 +1,4 @@
-package wechatin
+package com.net128.test.gatling.wechatin
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
@@ -6,6 +6,7 @@ import scala.concurrent.duration._
 
 class MessageInboundSimulation extends Simulation {
 
+  val nUsers = Integer.getInteger("users", 100)
   val uri = System.getProperty("uri")
   val httpConf = http
     .disableWarmUp
@@ -37,6 +38,6 @@ class MessageInboundSimulation extends Simulation {
 
   setUp(
     scn.inject(
-      atOnceUsers(3000)
+      atOnceUsers(nUsers)
     ).protocols(httpConf))
 }
