@@ -15,7 +15,7 @@
     <gatling-plugin.version>2.2.4</gatling-plugin.version>
     <scala-maven-plugin.version>3.3.2</scala-maven-plugin.version>
     <scala.version>2.12.3</scala.version>
-    <scalaCompatVersion>2.12.1</scalaCompatVersion>
+    <scala.compatVersion>2.12</scala.compatVersion>
   </properties>
 
   <dependencies>
@@ -24,21 +24,6 @@
       <artifactId>gatling-charts-highcharts</artifactId>
       <version>${gatling.version}</version>
     </dependency>
-    <dependency>
-      <groupId>com.dongxiguo</groupId>
-      <artifactId>fastring_2.12</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.softwaremill.quicklens</groupId>
-      <artifactId>quicklens_2.12</artifactId>
-      <version>1.4.11</version>
-    </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.scala-lang</groupId>-->
-      <!--<artifactId>scala-library</artifactId>-->
-      <!--<version>${scala.version}</version>-->
-    <!--</dependency>-->
   </dependencies>
 
   <build>
@@ -56,28 +41,32 @@
         </executions>
         <configuration>
           <scalaVersion>${scala.version}</scalaVersion>
-          <scalaCompatVersion>${scala.binary.version}</scalaCompatVersion>
+          <scalaCompatVersion>${scala.compatVersion}}</scalaCompatVersion>
+          <args>
+            <arg>-deprecation</arg>
+            <arg>-feature</arg>
+            <arg>-language:postfixOps</arg>
+          </args>
           <jvmArgs>
             <jvmArg>-Xms64m</jvmArg>
             <jvmArg>-Xmx1024m</jvmArg>
           </jvmArgs>
         </configuration>
       </plugin>
-      <!--<plugin>-->
-        <!--<groupId>io.gatling</groupId>-->
-        <!--<artifactId>gatling-maven-plugin</artifactId>-->
-        <!--<version>${gatling-plugin.version}</version>-->
-        <!--<configuration>-->
-          <!--<jvmArgs>-->
-            <!--<jvmArg>-Durl=http://localhost:9000</jvmArg>-->
-            <!--<jvmArg>-DnumberOfUsers=10</jvmArg>-->
-            <!--<jvmArg>-DnumberOfRepetitions=1</jvmArg>-->
-            <!--<jvmArg>-DdurationMinutes=1</jvmArg>-->
-            <!--<jvmArg>-DpauseBetweenRequestsMs=3000</jvmArg>-->
-            <!--<jvmArg>-Ddebug=true</jvmArg>-->
-          <!--</jvmArgs>-->
-        <!--</configuration>-->
-      <!--</plugin>-->
+      <plugin>
+        <groupId>io.gatling</groupId>
+        <artifactId>gatling-maven-plugin</artifactId>
+        <version>${gatling-plugin.version}</version>
+        <configuration>
+          <configFolder>${project.basedir}/src/main/resources</configFolder>
+          <simulationsFolder>${project.basedir}/src/main/scala/com/net128/test/gatling/wechatin</simulationsFolder>
+          <dataDirectory>${project.basedir}/src/main/resources/data</dataDirectory>
+          <resultsDirectory>${project.basedir}/target/gatling</resultsDirectory>
+          <bodiesDirectory>${project.basedir}/src/main/resources/bodies</bodiesDirectory>
+          <binariesDirectory>${project.basedir}/target</binariesDirectory>
+          <runMultipleSimulations>true</runMultipleSimulations>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -102,7 +91,7 @@
               <transformers>
                 <transformer
                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>com.net128.test.gatling.wechatin.Engine</mainClass>
+                  <mainClass>JarEngine</mainClass>
                 </transformer>
               </transformers>
             </configuration>

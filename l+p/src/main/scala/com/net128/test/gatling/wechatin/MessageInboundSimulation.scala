@@ -7,7 +7,7 @@ import scala.concurrent.duration._
 class MessageInboundSimulation extends Simulation {
 
   val nUsers = Integer.getInteger("users", 100)
-  val uri = System.getProperty("uri")
+  val uri = sys.props.getOrElse("uri", "http://localhost:15001")
   val httpConf = http
     .disableWarmUp
     .baseURLs(uri)
@@ -20,7 +20,7 @@ class MessageInboundSimulation extends Simulation {
   val scn = scenario("Message Inbound Simulation")
     .repeat(50) {
       pause(300 milliseconds)
-      .exec(http("receive custom message")
+      .exec(http("receive message")
         .post("/wechat")
         .body(StringBody(
           s"""<xml>

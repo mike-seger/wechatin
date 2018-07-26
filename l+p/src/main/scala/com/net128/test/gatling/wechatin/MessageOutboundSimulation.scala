@@ -8,7 +8,7 @@ class MessageOutboundSimulation extends Simulation {
 
   val nUsers = Integer.getInteger("users", 100)
   var logSession:String = "LOGSESSION-" + System.currentTimeMillis()
-  val uri = System.getProperty("uri")
+  val uri = sys.props.getOrElse("uri", "http://localhost:15001/cgi-bin")
   val httpConf = http
     .disableWarmUp
     .baseURLs(uri)
@@ -49,6 +49,6 @@ class MessageOutboundSimulation extends Simulation {
 
   setUp(
     scn.inject(
-      atOnceUsers(3000)
+      atOnceUsers(nUsers)
     ).protocols(httpConf))
 }

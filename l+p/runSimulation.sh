@@ -21,4 +21,5 @@ JAVA_OPTS="-server -XX:+UseThreadPriorities -XX:ThreadPriorityPolicy=42 -Xms512M
     -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false ${JAVA_OPTS}"
 
 java $JAVA_OPTS $USER_ARGS \
-    -Dusers=1000 -DresultsFolder=target/results -Duri="$2" -DsimulationClass="$3" -jar "$1" -nr
+    -Dusers=3000 -DresultsFolder=target/results -Duri="$2" \
+    -DresultsFolder=testresults -DsimulationClass="$3" -jar "$1" -nr
