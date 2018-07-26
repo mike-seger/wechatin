@@ -22,16 +22,18 @@ class MessageInboundSimulation extends Simulation {
       pause(300 milliseconds)
       .exec(http("receive message")
         .post("/wechat")
-        .body(StringBody(
-          s"""<xml>
-             |    <ToUserName>toUser</ToUserName>
-             |    <FromUserName>oJ_mT0idqDSmsWctBfhJ4gLSUX1w</FromUserName>
-             |    <CreateTime>1348831860</CreateTime>
-             |    <MsgType>text</MsgType>
-             |    <Content>I like WeChat!!!</Content>
-             |    <MsgId>1234567890123456</MsgId>
-             |</xml>""".stripMargin)
-        )
+
+        .body(RawFileBody("inboundXmlMessage.xml")).asXML
+//        .body(StringBody(
+//          s"""<xml>
+//             |    <ToUserName>toUser</ToUserName>
+//             |    <FromUserName>oJ_mT0idqDSmsWctBfhJ4gLSUX1w</FromUserName>
+//             |    <CreateTime>1348831860</CreateTime>
+//             |    <MsgType>text</MsgType>
+//             |    <Content>I like WeChat!!!</Content>
+//             |    <MsgId>1234567890123456</MsgId>
+//             |</xml>""".stripMargin)
+//        )
         .check(status.is(200))
       )
     }

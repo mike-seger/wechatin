@@ -37,12 +37,7 @@ class MessageOutboundSimulation extends Simulation {
       .exec(http("send custom message")
         .post("/message/custom/send")
         .queryParam("access_token", "${currentAccessToken}")
-        .body(StringBody(
-          s"""{
-            |"touser":"string","msgtype":"text",
-            |"text":{"content":"${logSession} 決口経算再市成誉給等 بعد اتفاق الشهيرة سنغافورة لم. על תנך התפתחות ליצירתה, קסאםFacete integre prodesset eum ex, mea"}
-            |}""".stripMargin)
-        )
+        .body(RawFileBody("outboundJsonMessage.json")).asJSON
         .check(status.is(200))
       )
     }

@@ -48,7 +48,6 @@
             <arg>-language:postfixOps</arg>
           </args>
           <jvmArgs>
-            <jvmArg>-Xms64m</jvmArg>
             <jvmArg>-Xmx1024m</jvmArg>
           </jvmArgs>
         </configuration>
@@ -60,10 +59,6 @@
         <configuration>
           <configFolder>${project.basedir}/src/main/resources</configFolder>
           <simulationsFolder>${project.basedir}/src/main/scala/com/net128/test/gatling/wechatin</simulationsFolder>
-          <dataDirectory>${project.basedir}/src/main/resources/data</dataDirectory>
-          <resultsDirectory>${project.basedir}/target/gatling</resultsDirectory>
-          <bodiesDirectory>${project.basedir}/src/main/resources/bodies</bodiesDirectory>
-          <binariesDirectory>${project.basedir}/target</binariesDirectory>
           <runMultipleSimulations>true</runMultipleSimulations>
         </configuration>
       </plugin>
