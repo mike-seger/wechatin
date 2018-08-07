@@ -11,8 +11,14 @@ logging:
       util.PropertiesDumper: debug
       service: info
       controller: info
+spring.application.name: 'WeChat In'
 spring.jackson.serialization:
   indent_output: true
+spring.thymeleaf:
+  cache: false
+  enabled: true
+  prefix: 'classpath:/templates/'
+  suffix: .html
 #  write_dates_as_timestamps: false
 server.port: 15001
 management:
@@ -23,4 +29,7 @@ management:
     enabled-by-default: true
     sensitive: false
     web.exposure.include: '*'
+wechat.api: 'https://api.weixin.qq.com/'
 wechatin.logsession.pattern: 'LOGSESSION-([0-9]*)'
+
+

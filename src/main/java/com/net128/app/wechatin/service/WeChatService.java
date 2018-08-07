@@ -11,8 +11,10 @@ import com.net128.app.wechatin.util.HttpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.*;
 
@@ -23,18 +25,22 @@ public class WeChatService {
     @Autowired
     private WeChatProperties wcp;
 
-    private static final String WECHAT_API = "https://api.weixin.qq.com/";
-    private static final String WC_API = WECHAT_API + "cgi-bin/";
-    private static final String CREATE_MENU_URL = WC_API + "/menu/create?access_token=ACCESS_TOKEN";
-    private static final String GET_ACCESSTOKEN_URL = WC_API + "token?grant_type=client_credential&appid=wcp.appId&secret=wcp.appSecret";
-    private static final String DELETE_MENU_URL = WC_API + "menu/delete?access_token=ACCESS_TOKEN";
-    private static final String GET_TICKET_URL = WC_API + "ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
-    private static final String GET_WEB_ACCESSTOKEN_URL = WECHAT_API + "sns/oauth2/access_token?appid=wcp.appId&secret=SECRET&code=CODE&grant_type=authorization_code";
-    private static final String GET_USERS_URL = WC_API + "user/get?access_token=ACCESS_TOKEN"; // TODO id n>10000 &next_openid=NEXT_OPENID
-    private static final String GET_USERINFO_URL = WC_API + "user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=en";
-    private static final String GET_WEB_USERINFO_URL = WECHAT_API + "sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=en";
-    private static final String SEND_TEMPLATE_URL = WC_API + "message/template/send?access_token=ACCESS_TOKEN";
-    private static final String SEND_CUSTOM_URL = WC_API + "message/custom/send?access_token=ACCESS_TOKEN";
+    @Value("${wechat.api}")
+    private String WECHAT_API;
+
+    //TODO convert to WeChat ConfigProperties
+    private String WC_API;
+    private String CREATE_MENU_URL;
+    private String GET_ACCESSTOKEN_URL;
+    private String DELETE_MENU_URL;
+    private String GET_TICKET_URL;
+    private String GET_WEB_ACCESSTOKEN_URL;
+    private String GET_USERS_URL;
+    private String GET_USERINFO_URL;
+    private String GET_WEB_USERINFO_URL;
+    private String SEND_TEMPLATE_URL;
+    private String SEND_CUSTOM_URL;
+
     private static AccessToken accessToken;
 
     private Map<String, UserInfo> userInfoMap=new HashMap<>();
@@ -42,6 +48,21 @@ public class WeChatService {
     public WebAccessToken getWebAccessToken(String code){
         String url=GET_WEB_ACCESSTOKEN_URL.replace("wcp.appId", wcp.getAppId()).replace("SECRET", wcp.getAppSecret()).replace("CODE", code);
         return api(url, WebAccessToken.class);
+    }
+
+    @PostConstruct
+    protected void init() {
+        WC_API = WECHAT_API + "cgi-bin/";
+        CREATE_MENU_URL = WC_API + "/menu/create?access_token=ACCESS_TOKEN";
+        GET_ACCESSTOKEN_URL = WC_API + "token?grant_type=client_credential&appid=wcp.appId&secret=wcp.appSecret";
+        DELETE_MENU_URL = WC_API + "menu/delete?access_token=ACCESS_TOKEN";
+        GET_TICKET_URL = WC_API + "ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
+        GET_WEB_ACCESSTOKEN_URL = WECHAT_API + "sns/oauth2/access_token?appid=wcp.appId&secret=SECRET&code=CODE&grant_type=authorization_code";
+        GET_USERS_URL = WC_API + "user/get?access_token=ACCESS_TOKEN"; // TODO id n>10000 &next_openid=NEXT_OPENID
+        GET_USERINFO_URL = WC_API + "user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=en";
+        GET_WEB_USERINFO_URL = WECHAT_API + "sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=en";
+        SEND_TEMPLATE_URL = WC_API + "message/template/send?access_token=ACCESS_TOKEN";
+        SEND_CUSTOM_URL = WC_API + "message/custom/send?access_token=ACCESS_TOKEN";
     }
 
     public String getAccessToken(){
