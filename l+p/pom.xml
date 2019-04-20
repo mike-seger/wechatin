@@ -14,7 +14,7 @@
     <gatling.version>3.1.1</gatling.version>
     <gatling-plugin.version>3.0.2</gatling-plugin.version>
     <scala-maven-plugin.version>4.0.1</scala-maven-plugin.version>
-    <scala.version>2.12.7</scala.version>
+    <scala.version>2.12.8</scala.version>
     <scala.compatVersion>2.12</scala.compatVersion>
   </properties>
 
@@ -23,6 +23,16 @@
       <groupId>io.gatling.highcharts</groupId>
       <artifactId>gatling-charts-highcharts</artifactId>
       <version>${gatling.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcpkix-jdk15on</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcprov-jdk15on</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
