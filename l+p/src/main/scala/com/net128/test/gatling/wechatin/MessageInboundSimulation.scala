@@ -10,7 +10,7 @@ class MessageInboundSimulation extends Simulation {
   val uri = sys.props.getOrElse("uri", "http://localhost:15001")
   val httpConf = http
     .disableWarmUp
-    .baseURLs(uri)
+    .baseUrl(uri)
     .acceptHeader("application/json;q=0.9,*/*;q=0.8")
     .acceptEncodingHeader("gzip, deflate")
     .acceptLanguageHeader("en-US,en;q=0.5")
@@ -22,7 +22,7 @@ class MessageInboundSimulation extends Simulation {
       pause(300 milliseconds)
       .exec(http("receive message")
         .post("/wechat")
-        .body(RawFileBody("inboundXmlMessage.xml")).asXML
+        .body(RawFileBody("bodies/inboundXmlMessage.xml")).asXml
         .check(status.is(200))
       )
     }

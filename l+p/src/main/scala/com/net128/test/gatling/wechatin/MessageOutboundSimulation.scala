@@ -11,7 +11,7 @@ class MessageOutboundSimulation extends Simulation {
   val uri = sys.props.getOrElse("uri", "http://localhost:15001/cgi-bin")
   val httpConf = http
     .disableWarmUp
-    .baseURLs(uri)
+    .baseUrl(uri)
     .acceptHeader("application/json;q=0.9,*/*;q=0.8")
     .acceptEncodingHeader("gzip, deflate")
     .acceptLanguageHeader("en-US,en;q=0.5")
@@ -37,7 +37,7 @@ class MessageOutboundSimulation extends Simulation {
       .exec(http("send custom message")
         .post("/message/custom/send")
         .queryParam("access_token", "${currentAccessToken}")
-        .body(RawFileBody("outboundJsonMessage.json")).asJSON
+        .body(RawFileBody("bodies/outboundJsonMessage.json")).asJson
         .check(status.is(200))
       )
     }
