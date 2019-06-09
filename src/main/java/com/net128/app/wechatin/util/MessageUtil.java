@@ -13,7 +13,6 @@ import java.util.Random;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
 
 public class MessageUtil {
 	private static Charset CHARSET = StandardCharsets.UTF_8;
@@ -89,7 +88,7 @@ public class MessageUtil {
 
 			byte[] encrypted = cipher.doFinal(unencrypted);
 
-			String base64Encrypted = DatatypeConverter.printBase64Binary(encrypted);
+			String base64Encrypted = Base64.getEncoder().encodeToString(encrypted);
 
 			return base64Encrypted;
 		} catch (Exception e) {
